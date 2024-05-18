@@ -17,7 +17,8 @@ Python
 Flask
 Flask-JWT-Extended
 OpenAPI/Swagger
-Configuração e Execução
+
+# Configuração e Execução
 Pré-requisitos
 Python 3.8 ou superior
 Pip (gerenciador de pacotes do Python)
@@ -25,109 +26,72 @@ Pip (gerenciador de pacotes do Python)
 # Instalação
 Clone o repositório:
 
-bash
-Copiar código
-git clone https://github.com/seu_usuario/vinhos_api.git
 
-cd vinhos_api
-Crie e ative um ambiente virtual (opcional, mas recomendado):
+Siga os seguintes passos:
+1- Abra o bash / cmd na pasta aonde deseja salvar o repositório
+2- git clone https://github.com/seu_usuario/vinhos_api.git
+3- cd vinhos_api
+4- python3 -m venv venv source venv/bin/activate   # No Windows, use `venv\Scripts\activate`
+5- pip install -r requirements.txt
+6- Configuração do JWT
+6.1 - Abra o arquivo app.py e configure a chave secreta para o JWT:
+6.2 - app.config['JWT_SECRET_KEY'] = 'sua_chave_secreta'
+7- Executando a API
+8- flask run
+9- Acesse a API  curl ou Postman para fazer requisições:
+9.1 - Na pasta vinhos_api tem a coleçao "API de Vinhos.postman_collection.json" ou o swagger "embrapa_vinho_api_swagger.yaml"
 
-bash
-Copiar código
-python3 -m venv venv
-source venv/bin/activate   # No Windows, use `venv\Scripts\activate`
-Instale as dependências:
-
-bash
-Copiar código
-pip install -r requirements.txt
-
-Configuração do JWT
-Abra o arquivo app.py e configure a chave secreta para o JWT:
-python
-Copiar código
-app.config['JWT_SECRET_KEY'] = 'sua_chave_secreta'
-Executando a API
-Inicie a aplicação:
-
-bash
-Copiar código
-flask run
-Acesse a API no navegador ou use uma ferramenta como curl ou Postman para fazer requisições:
-
-arduino
-Copiar código
-http://localhost:5000
-Endpoints
-Login
+#API 
+url base: http://localhost:5000
 
 POST /login: Autentica o usuário e retorna um token JWT.
 Requisição:
-json
-Copiar código
 {
   "username": "test",
   "password": "test"
 }
 Resposta:
-json
-Copiar código
 {
   "access_token": "seu_token_jwt"
 }
+
 Producao
 
 GET /producao: Obter todas as informações de produção de vinhos.
 Requisição:
-http
-Copiar código
 GET /producao HTTP/1.1
 Host: localhost:5000
 Authorization: Bearer seu_token_jwt
-Processa Viniferas
 
+Processa Viniferas
 GET /processa-viniferas: Obter todas as informações de processamento de viniferas.
 Requisição:
-http
-Copiar código
 GET /processa-viniferas HTTP/1.1
 Host: localhost:5000
 Authorization: Bearer seu_token_jwt
-Comercio
 
+Comercio
 GET /comercio: Obter todas as informações de comércio de vinhos.
 Requisição:
-http
-Copiar código
 GET /comercio HTTP/1.1
 Host: localhost:5000
 Authorization: Bearer seu_token_jwt
-Importacao Vinhos
 
+Importacao Vinhos
 GET /importacao-vinhos: Obter todas as informações de importação de vinhos.
 Requisição:
-http
-Copiar código
 GET /importacao-vinhos HTTP/1.1
 Host: localhost:5000
 Authorization: Bearer seu_token_jwt
-Exportacao Vinhos
 
+Exportacao Vinhos
 GET /exportacao-vinhos: Obter todas as informações de exportação de vinhos.
 Requisição:
-http
-Copiar código
 GET /exportacao-vinhos HTTP/1.1
 Host: localhost:5000
 Authorization: Bearer seu_token_jwt
-Alimentação da Base de Machine Learning
+
+# Alimentação da Base de Machine Learning
 Os dados fornecidos por esta API podem ser utilizados para alimentar uma base de machine learning, permitindo a criação de modelos preditivos e análises avançadas na área de viticultura. A API foi desenhada para fornecer dados estruturados e facilmente integráveis em pipelines de dados para treinamento de modelos.
 
-Contribuindo
-Se você deseja contribuir com a API de Vinhos, por favor, siga estas diretrizes:
 
-Fork o repositório.
-Crie um branch para sua feature (git checkout -b minha-feature).
-Commit suas mudanças (git commit -am 'Adiciona minha feature').
-Push para o branch (git push origin minha-feature).
-Crie um novo Pull Request.
