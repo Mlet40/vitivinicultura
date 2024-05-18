@@ -1,0 +1,283 @@
+openapi: 3.0.0
+info:
+  title: API de Vinhos
+  description: API para gerenciar informações de vinhos
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
+
+paths:
+  /producao:
+    get:
+      summary: Obter todas as Producao
+      tags:
+        - Producao
+      responses:
+        '200':
+          description: Lista de Producao
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producao'
+        '401':
+          description: Não autorizado
+
+  /producao/{id}:
+    get:
+      summary: Obter uma Producao pelo ID
+      tags:
+        - Producao
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalhes da Producao
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producao'
+        '401':
+          description: Não autorizado
+        '404':
+          description: Producao não encontrada
+
+  /processa-viniferas:
+    get:
+      summary: Obter todas as ProcessaViniferas
+      tags:
+        - ProcessaViniferas
+      responses:
+        '200':
+          description: Lista de ProcessaViniferas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessaViniferas'
+        '401':
+          description: Não autorizado
+
+  /processa-viniferas/{id}:
+    get:
+      summary: Obter uma ProcessaViniferas pelo ID
+      tags:
+        - ProcessaViniferas
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalhes da ProcessaViniferas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessaViniferas'
+        '401':
+          description: Não autorizado
+        '404':
+          description: ProcessaViniferas não encontrada
+
+  /comercio:
+    get:
+      summary: Obter todas as Comércio
+      tags:
+        - Comércio
+      responses:
+        '200':
+          description: Lista de Comércio
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comercio'
+        '401':
+          description: Não autorizado
+
+  /comercio/{id}:
+    get:
+      summary: Obter um Comércio pelo ID
+      tags:
+        - Comércio
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalhes do Comércio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comercio'
+        '401':
+          description: Não autorizado
+        '404':
+          description: Comércio não encontrado
+
+  /importacao-vinhos:
+    get:
+      summary: Obter todas as ImportaçãoVinhos
+      tags:
+        - ImportaçãoVinhos
+      responses:
+        '200':
+          description: Lista de ImportaçãoVinhos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportacaoVinhos'
+        '401':
+          description: Não autorizado
+
+  /importacao-vinhos/{id}:
+    get:
+      summary: Obter uma ImportaçãoVinhos pelo ID
+      tags:
+        - ImportaçãoVinhos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalhes da ImportaçãoVinhos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportacaoVinhos'
+        '401':
+          description: Não autorizado
+        '404':
+          description: ImportaçãoVinhos não encontrada
+
+  /exportacao-vinhos:
+    get:
+      summary: Obter todas as ExportaçãoVinhos
+      tags:
+        - ExportaçãoVinhos
+      responses:
+        '200':
+          description: Lista de ExportaçãoVinhos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExportacaoVinhos'
+        '401':
+          description: Não autorizado
+
+  /exportacao-vinhos/{id}:
+    get:
+      summary: Obter uma ExportaçãoVinhos pelo ID
+      tags:
+        - ExportaçãoVinhos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalhes da ExportaçãoVinhos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportacaoVinhos'
+        '401':
+          description: Não autorizado
+        '404':
+          description: ExportaçãoVinhos não encontrada
+
+components:
+  schemas:
+    Producao:
+      type: object
+      properties:
+        id:
+          type: integer
+        control:
+          type: string
+        produto:
+          type: string
+        categoria:
+          type: string
+        ano:
+          type: integer
+
+    ProcessaViniferas:
+      type: object
+      properties:
+        id:
+          type: integer
+        control:
+          type: string
+        cultivar:
+          type: string
+        categoria:
+          type: string
+        ano:
+          type: integer
+
+    Comercio:
+      type: object
+      properties:
+        id:
+          type: integer
+        control:
+          type: string
+        produto:
+          type: string
+        categoria:
+          type: string
+        ano:
+          type: integer
+
+    ImportacaoVinhos:
+      type: object
+      properties:
+        id:
+          type: integer
+        país:
+          type: string
+        ano:
+          type: integer
+
+    ExportacaoVinhos:
+      type: object
+      properties:
+        id:
+          type: integer
+        país:
+          type: string
+        ano:
+          type: integer
