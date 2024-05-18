@@ -1,0 +1,654 @@
+{
+	"info": {
+		"_postman_id": "d8c7440c-230d-4242-ad67-d8e85983e344",
+		"name": "API de Vinhos",
+		"description": "API para gerenciar informações de vinhos da embrapa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3004003"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "Realizar login e obter token JWT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Token JWT gerado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"access_token\": \"<string>\"\n}"
+						},
+						{
+							"name": "Credenciais inválidas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "producao",
+			"item": [
+				{
+					"name": "Obter as informações de produção",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/producao",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"producao"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de produção",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/producao",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"producao"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+						},
+						{
+							"name": "Não autorizado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/producao",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"producao"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "processa-viniferas",
+			"item": [
+				{
+					"name": "Obter todas as informações de processamento viniferas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/processa-viniferas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"processa-viniferas"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de processamento viniferas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/processa-viniferas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"processa-viniferas"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"cultivar\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"cultivar\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+						},
+						{
+							"name": "Não autorizado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/processa-viniferas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"processa-viniferas"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "comercio",
+			"item": [
+				{
+					"name": "Obter todas as informações de comércio",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/comercio",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comercio"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de info comércios",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/comercio",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comercio"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+						},
+						{
+							"name": "Não autorizado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/comercio",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comercio"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "importacao-vinhos",
+			"item": [
+				{
+					"name": "Obter todas as informações de importações",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/importacao-vinhos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"importacao-vinhos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de info de importações de vinhos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/importacao-vinhos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"importacao-vinhos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+						},
+						{
+							"name": "Não autorizado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/importacao-vinhos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"importacao-vinhos"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "exportacao-vinhos",
+			"item": [
+				{
+					"name": "Obter todas as informações de exportações de vinhos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/exportacao-vinhos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"exportacao-vinhos"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de exportação de vinhos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/exportacao-vinhos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"exportacao-vinhos"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+						},
+						{
+							"name": "Não autorizado",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer <token>",
+										"description": "Added as a part of security scheme: bearer"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/exportacao-vinhos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"exportacao-vinhos"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000"
+		},
+		{
+			"key": "bearerToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

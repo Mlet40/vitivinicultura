@@ -4,7 +4,7 @@ info:
   description: API para gerenciar informações de vinhos da embrapa
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:5000
     description: Servidor local
 
 components:
@@ -15,6 +15,14 @@ components:
       bearerFormat: JWT
 
   schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
     Producao:
       type: object
       properties:
@@ -81,6 +89,28 @@ security:
   - BearerAuth: []
 
 paths:
+  /login:
+    post:
+      summary: Realizar login e obter token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Token JWT gerado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+        '401':
+          description: Credenciais inválidas
+
   /producao:
     get:
       summary: Obter as informações de produção

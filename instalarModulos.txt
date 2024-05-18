@@ -1,0 +1,3 @@
+instalar modulos
+pip install flask
+pip install flask_jwt_extended
