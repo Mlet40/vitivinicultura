@@ -1,6 +1,8 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from services.vinho_service import get_vinhos
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from flask_swagger_ui import get_swaggerui_blueprint
+import os
 
 app = Flask(__name__)
 
@@ -86,6 +88,21 @@ def login():
     access_token = create_access_token(identity={'username': username})
     return jsonify(access_token=access_token), 200
 
+# Configuração do Swagger UI
+SWAGGER_URL = '/swagger'
+API_URL = '/swagger.yaml'
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "API de Vinhos da Embrapa"
+    }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+@app.route('/<path:path>')
+def send_static(path):
+    return send_from_directory('.', path)
 
 if __name__ == '__main__':
     app.run(debug=True)

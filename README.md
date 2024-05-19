@@ -38,8 +38,8 @@ Clone o repositório:
 - 6.2 - app.config['JWT_SECRET_KEY'] = 'sua_chave_secreta'
 - 7- Executando a API
 - 8- flask run
-- 9- Acesse a API  curl ou Postman para fazer requisições:
-- 9.1 - Na pasta vinhos_api tem a coleçao ***API de Vinhos.postman_collection.json*** ou o swagger ***embrapa_vinho_api_swagger.yaml***
+- 9- Para acessar e testar a api temos o swagger UI paraa facilitar, acesse ***http://localhost:5000/swagger***
+- 10 - Para acessar via Postman a collection esta na pasta raiz ***API de Vinhos.postman_collection.json*** ou o swagger ***swagger.yaml***
 
 ## API 
 

@@ -116,6 +116,8 @@ paths:
       summary: Obter as informações de produção
       tags:
         - Producao
+      security:
+        - BearerAuth: [ ]
       responses:
         '200':
           description: Lista de produção
@@ -134,6 +136,8 @@ paths:
       summary: Obter todas as informações de processamento viniferas
       tags:
         - ProcessaViniferas
+      security:
+        - BearerAuth: [ ]
       responses:
         '200':
           description: Lista de processamento viniferas
@@ -152,6 +156,8 @@ paths:
       summary: Obter todas as informações de comércio
       tags:
         - Comércio
+      security:
+        - BearerAuth: [ ]
       responses:
         '200':
           description: Lista de info comércios
@@ -171,6 +177,8 @@ paths:
       summary: Obter todas as informações de importações
       tags:
         - ImportaçãoVinhos
+      security:
+        - BearerAuth: [ ]
       responses:
         '200':
           description: Lista de info de importações de vinhos
@@ -189,6 +197,8 @@ paths:
       summary: Obter todas as informações de exportações de vinhos
       tags:
         - ExportaçãoVinhos
+      security:
+        - BearerAuth: [ ]
       responses:
         '200':
           description: Lista de exportação de vinhos
