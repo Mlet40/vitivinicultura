@@ -6,6 +6,9 @@ info:
 servers:
   - url: http://localhost:5000
     description: Servidor local
+  - url: https://api-vinifera-d375bceb170c.herokuapp.com/
+    description: Servidor Heroku
+
 
 components:
   securitySchemes:
