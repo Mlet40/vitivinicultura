@@ -3,6 +3,7 @@ from services.vinho_service import get_vinhos
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask_swagger_ui import get_swaggerui_blueprint
 import os
+from services.csv_download_service import CSVDownloadService
 
 app = Flask(__name__)
 
@@ -36,6 +37,17 @@ exportacao_vinhos_data = [
     {"id": 1, "país": "país1", "ano": 2020},
     {"id": 2, "país": "país2", "ano": 2021}
 ]
+
+def triggerDownloadCSV():
+    service = CSVDownloadService()
+    csv_files = ["Producao.csv", "ProcessaSemclass.csv", "ProcessaViniferas.csv", "ProcessaMesa.csv", "ProcessaAmericanas.csv", "Comercio.csv", "ImpVinhos.csv", "ImpEspumantes.csv", "ImpFrescas.csv", "ImpPassas.csv", "ImpSuco.csv", "ExpVinho.csv", "ExpEspumantes.csv", "ExpUva.csv", "ExpSuco.csv"]
+    
+    for csv_file in csv_files:
+        success = service.download_csv(csv_file)
+        if success:
+            print(f"Download do arquivo {csv_file} realizado com sucesso.")
+        else:
+            print(f"Falha no download do arquivo {csv_file}.")
 
 @app.route('/')
 def hello_world():
