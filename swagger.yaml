@@ -1,0 +1,216 @@
+openapi: 3.0.0
+info:
+  title: API de Vinhos
+  description: API para gerenciar informações de vinhos da embrapa
+  version: 1.0.0
+servers:
+  - url: https://api-vinifera-d375bceb170c.herokuapp.com/
+    description: Servidor Heroku
+  - url: http://localhost:5000
+    description: Servidor local
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    Producao:
+      type: object
+      properties:
+        id:
+          type: integer
+        control:
+          type: string
+        produto:
+          type: string
+        categoria:
+          type: string
+        ano:
+          type: integer
+
+    ProcessaViniferas:
+      type: object
+      properties:
+        id:
+          type: integer
+        control:
+          type: string
+        cultivar:
+          type: string
+        categoria:
+          type: string
+        ano:
+          type: integer
+
+    Comercio:
+      type: object
+      properties:
+        id:
+          type: integer
+        control:
+          type: string
+        produto:
+          type: string
+        categoria:
+          type: string
+        ano:
+          type: integer
+
+    ImportacaoVinhos:
+      type: object
+      properties:
+        id:
+          type: integer
+        país:
+          type: string
+        ano:
+          type: integer
+
+    ExportacaoVinhos:
+      type: object
+      properties:
+        id:
+          type: integer
+        país:
+          type: string
+        ano:
+          type: integer
+
+security:
+  - BearerAuth: []
+
+paths:
+  /login:
+    post:
+      summary: Realizar login e obter token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Token JWT gerado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+        '401':
+          description: Credenciais inválidas
+
+  /producao:
+    get:
+      summary: Obter as informações de produção
+      tags:
+        - Producao
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Lista de produção
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producao'
+        '401':
+          description: Não autorizado
+
+ 
+  /processa-viniferas:
+    get:
+      summary: Obter todas as informações de processamento viniferas
+      tags:
+        - ProcessaViniferas
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Lista de processamento viniferas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessaViniferas'
+        '401':
+          description: Não autorizado
+
+ 
+  /comercio:
+    get:
+      summary: Obter todas as informações de comércio
+      tags:
+        - Comércio
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Lista de info comércios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comercio'
+        '401':
+          description: Não autorizado
+
+ 
+
+  /importacao-vinhos:
+    get:
+      summary: Obter todas as informações de importações
+      tags:
+        - ImportaçãoVinhos
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Lista de info de importações de vinhos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportacaoVinhos'
+        '401':
+          description: Não autorizado
+
+  
+  /exportacao-vinhos:
+    get:
+      summary: Obter todas as informações de exportações de vinhos
+      tags:
+        - ExportaçãoVinhos
+      security:
+        - BearerAuth: [ ]
+      responses:
+        '200':
+          description: Lista de exportação de vinhos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExportacaoVinhos'
+        '401':
+          description: Não autorizado
+
+  
