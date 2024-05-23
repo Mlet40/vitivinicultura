@@ -16,5 +16,5 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12 # Esta ação faz o deploy do conteúdo no Heroku
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }} # A chave API do Heroku armazenada no segredo do repositório
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }} # O nome da sua aplicação no Heroku
+          heroku_app_name: "api-vinifera" # O nome da sua aplicação no Heroku
           heroku_email: "fabiovdias@gmail.com" # Seu endereço de email do Heroku
