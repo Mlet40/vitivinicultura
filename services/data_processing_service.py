@@ -1,5 +1,20 @@
 import pandas as pd
 
+BASE_URL = "http://vitibrasil.cnpuv.embrapa.br/download"
+def __init__(self, base_url):
+        self.csv_service = CSVDownloadService(BASE_URL)
+        self.csv_files = [
+            "Producao.csv", "ProcessaSemclass.csv", "ProcessaViniferas.csv",
+            "ProcessaMesa.csv", "ProcessaAmericanas.csv", "Comercio.csv",
+            "ImpVinhos.csv", "ImpEspumantes.csv", "ImpFrescas.csv", 
+            "ImpPassas.csv", "ImpSuco.csv", "ExpVinho.csv", 
+            "ExpEspumantes.csv", "ExpUva.csv", "ExpSuco.csv"
+        ]
+        self.download_csv_files()
+
+def download_csv_files(self):
+    self.csv_service.download_csv_files(self.csv_files)
+    
 def setHeaderComercio(df):
     n_colunas = df.shape[1]
     colunas = ['index', 'Bebida', 'Genero'] + list(range(1970, 1970 + n_colunas - 3))
