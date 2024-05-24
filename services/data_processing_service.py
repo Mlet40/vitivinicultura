@@ -24,6 +24,12 @@ class DataProcessingService:
         df.columns = colunas
         return df
 
+    def setHeaderExpImp(self, df):
+        n_colunas = df.shape[1]
+        colunas = ['id', 'pais', 'tipo'] + list(range(1970, 1970 + n_colunas - 3))
+        df.columns = colunas
+        return df
+
     def trataCategoria(self, df):
         maiuscula = ''
         df['categoria'] = ''
@@ -62,7 +68,8 @@ class DataProcessingService:
         df4 = pd.read_csv('csv/ExpSuco.csv', sep=';')
         df4['tipo'] = 'ExpSuco'
         df = pd.concat([df1, df2, df3, df4], ignore_index=True)
-        return self.melt_dataframe(df, id_vars=['id', 'control', 'produto', 'categoria', 'tipo'])
+        df = self.setHeaderExpImp(df)
+        return self.melt_dataframe(df, id_vars=['id', 'pais'])
 
     def get_importacao(self):
         df1 = pd.read_csv('csv/ImpVinhos.csv', sep=';')
