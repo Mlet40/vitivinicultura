@@ -422,7 +422,7 @@
 			]
 		},
 		{
-			"name": "importacao-vinhos",
+			"name": "importacao",
 			"item": [
 				{
 					"name": "Obter todas as informações de importações",
@@ -515,7 +515,7 @@
 			]
 		},
 		{
-			"name": "exportacao-vinhos",
+			"name": "exportacao",
 			"item": [
 				{
 					"name": "Obter todas as informações de exportações de vinhos",

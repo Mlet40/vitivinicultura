@@ -21,12 +21,14 @@ class DataProcessingService:
     def setHeaderComercio(self, df):
         n_colunas = df.shape[1]
         colunas = ['index', 'bebida', 'genero'] + list(range(1970, 1970 + n_colunas - 3))
+
         df.columns = colunas
         return df
 
     def setHeaderExpImp(self, df):
         n_colunas = df.shape[1]
         colunas = ['id', 'pais', 'tipo'] + list(range(1970, 1970 + n_colunas - 3))
+
         df.columns = colunas
         return df
 
@@ -48,7 +50,7 @@ class DataProcessingService:
 
     def melt_dataframe(self, df, id_vars):
         df_melted = df.melt(id_vars=id_vars, var_name='ano', value_name='valor')
-        df_melted['ano'] = df_melted['ano'].str.replace(r'\.\d+', '', regex=True)
+        #df_melted['ano'] = df_melted['ano'].str.replace(r'\.\d+', '', regex=True)
         return df_melted
 
 
@@ -58,18 +60,20 @@ class DataProcessingService:
         df = self.trataCategoria(df)
         return self.melt_dataframe(df, id_vars=['index', 'bebida', 'genero', 'categoria'])
 
-    def get_exportacao(self):
-        df1 = pd.read_csv('csv/ExpVinho.csv', sep=';')
-        df1['tipo'] = 'ExpVinho'
-        df2 = pd.read_csv('csv/ExpEspumantes.csv', sep=';')
-        df2['tipo'] = 'ExpEspumantes'
-        df3 = pd.read_csv('csv/ExpUva.csv', sep=';')
-        df3['tipo'] = 'ExpUva'
-        df4 = pd.read_csv('csv/ExpSuco.csv', sep=';')
-        df4['tipo'] = 'ExpSuco'
-        df = pd.concat([df1, df2, df3, df4], ignore_index=True)
+    def readcsv(self, csv, tipo):
+        df = pd.read_csv('csv/'+csv, sep=';',  memory_map=True)
         df = self.setHeaderExpImp(df)
-        return self.melt_dataframe(df, id_vars=['id', 'pais'])
+        df['tipo'] = tipo
+        return self.melt_dataframe(df, id_vars=['id', 'pais', 'tipo'])
+
+    def get_exportacao(self):
+        df1 = self.readcsv('ExpVinho.csv', 'ExpVinho')
+        df2 = self.readcsv('ExpEspumantes.csv', 'ExpEspumantes')
+        df3 = self.readcsv('ExpUva.csv', 'ExpUva')
+        df4 = self.readcsv('ExpSuco.csv', 'Expsuco')
+        df = pd.concat([df1, df2, df3, df4], ignore_index=True)
+
+        return df
 
     def get_importacao(self):
         df1 = pd.read_csv('csv/ImpVinhos.csv', sep=';')
