@@ -133,7 +133,7 @@ paths:
           description: Não autorizado
 
  
-  /processa-viniferas:
+  /processa:
     get:
       summary: Obter todas as informações de processamento viniferas
       tags:
@@ -174,7 +174,7 @@ paths:
 
  
 
-  /importacao-vinhos:
+  /importacao:
     get:
       summary: Obter todas as informações de importações
       tags:
@@ -194,7 +194,7 @@ paths:
           description: Não autorizado
 
   
-  /exportacao-vinhos:
+  /exportacao:
     get:
       summary: Obter todas as informações de exportações de vinhos
       tags:

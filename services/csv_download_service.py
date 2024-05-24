@@ -22,5 +22,8 @@ class CSVDownloadService:
             return False
 
     def download_csv_files(self, filenames):
+
         for filename in filenames:
-            self.download_csv(filename)
+            if not self.download_csv(filename):
+                print(f"Falha no download de {filename} no site da embrapa, a api poderá ser utilizada, porém  a api consumirá os CSVs que estão em sua versão antiga, na pasta csv")
+                break

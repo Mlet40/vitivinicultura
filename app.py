@@ -1,14 +1,13 @@
 from flask import Flask, jsonify, request, send_from_directory
-from services.vinho_service import get_vinhos
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask_swagger_ui import get_swaggerui_blueprint
-import os
-from services.csv_download_service import CSVDownloadService
+from services.data_processing_service import DataProcessingService
 
 app = Flask(__name__)
+data_service = DataProcessingService()
 
-data_service = DataProcessingService(base_url)
-
+app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'
+jwt = JWTManager(app)
 
 @app.route('/')
 def hello_world():
