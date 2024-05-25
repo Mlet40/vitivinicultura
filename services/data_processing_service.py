@@ -18,21 +18,7 @@ class DataProcessingService:
     def download_csv_files(self):
         self.csv_service.download_csv_files(self.csv_files)
 
-    def setHeaderComercio(self, df):
-        n_colunas = df.shape[1]
-        colunas = ['index', 'bebida', 'genero'] + list(range(1970, 1970 + n_colunas - 3))
-
-        df.columns = colunas
-        return df
-
-    def setHeaderExpImp(self, df):
-        n_colunas = df.shape[1]
-        colunas = ['id', 'pais', 'tipo'] + list(range(1970, 1970 + n_colunas - 3))
-
-        df.columns = colunas
-        return df
-
-    def trataCategoria(self, df):
+    def trataCategoria(seld,df):
         maiuscula = ''
         df['categoria'] = ''
         coluna = df.columns[1]
@@ -47,62 +33,66 @@ class DataProcessingService:
             else:
                 df.loc[indice, 'categoria'] = maiuscula
         return df[df['categoria'] != ""]
-
     def melt_dataframe(self, df, id_vars):
         df_melted = df.melt(id_vars=id_vars, var_name='ano', value_name='valor')
-        #df_melted['ano'] = df_melted['ano'].str.replace(r'\.\d+', '', regex=True)
-        return df_melted
 
+        df_melted['ano'] = df_melted['ano'].str.extract('(\d{4})').astype(int)
 
-    def get_comercio(self):
-        df = pd.read_csv('csv/Comercio.csv', sep=';', header=None)
-        df = self.setHeaderComercio(df)
-        df = self.trataCategoria(df)
-        return self.melt_dataframe(df, id_vars=['index', 'bebida', 'genero', 'categoria'])
+        id_vars.extend(['ano'])
 
-    def readcsv(self, csv, tipo):
-        df = pd.read_csv('csv/'+csv, sep=';',  memory_map=True)
-        df = self.setHeaderExpImp(df)
+        df_grouped = df_melted.groupby(id_vars).agg({'valor': 'sum'}).reset_index()
+
+        df_grouped['id'] = range(1, len(df_grouped) + 1)
+
+        return df_grouped
+
+    def readcsvTipo(self, csv, tipo, sep=';'):
+        df = pd.read_csv('csv/' + csv, sep=sep)
         df['tipo'] = tipo
-        return self.melt_dataframe(df, id_vars=['id', 'pais', 'tipo'])
+        return df
+    def get_comercio(self):
+        df = pd.read_csv('csv/Comercio.csv', sep=';')
+        df.rename(columns={'Produto': 'produto'}, inplace=True)
+        df = self.trataCategoria(df)
+
+        return self.melt_dataframe(df, id_vars=['id', 'control', 'produto', 'categoria'])
 
     def get_exportacao(self):
-        df1 = self.readcsv('ExpVinho.csv', 'ExpVinho')
-        df2 = self.readcsv('ExpEspumantes.csv', 'ExpEspumantes')
-        df3 = self.readcsv('ExpUva.csv', 'ExpUva')
-        df4 = self.readcsv('ExpSuco.csv', 'Expsuco')
+        df1 = self.readcsvTipo('ExpVinho.csv', 'Vinhos')
+        df2 = self.readcsvTipo('ExpEspumantes.csv', 'Espumantes')
+        df3 = self.readcsvTipo('ExpUva.csv', 'Uvas')
+        df4 = self.readcsvTipo('ExpSuco.csv', 'Sucos')
         df = pd.concat([df1, df2, df3, df4], ignore_index=True)
+        df.rename(columns={'Id': 'id', 'País': 'pais'}, inplace=True)
 
-        return df
+        return self.melt_dataframe(df, id_vars=['id', 'pais', 'tipo'])
 
     def get_importacao(self):
-        df1 = pd.read_csv('csv/ImpVinhos.csv', sep=';')
-        df1['tipo'] = 'ImpVinhos'
-        df2 = pd.read_csv('csv/ImpEspumantes.csv', sep=';')
-        df2['tipo'] = 'ImpEspumantes'
-        df3 = pd.read_csv('csv/ImpFrescas.csv', sep=';')
-        df3['tipo'] = 'ImpFrescas'
-        df4 = pd.read_csv('csv/ImpPassas.csv', sep=';')
-        df4['tipo'] = 'ImpPassas'
-        df5 = pd.read_csv('csv/ImpSuco.csv', sep=';')
-        df5['tipo'] = 'ImpSuco'
+        df1 = self.readcsvTipo('ImpVinhos.csv', 'Vinhos')
+        df2 = self.readcsvTipo('ImpEspumantes.csv', 'Espumantes')
+        df3 = self.readcsvTipo('ImpFrescas.csv', 'Frescas')
+        df4 = self.readcsvTipo('ImpPassas.csv', 'Passas')
+        df5 = self.readcsvTipo('ImpSuco.csv', 'Sucos')
+
         df = pd.concat([df1, df2, df3, df4, df5], ignore_index=True)
-        return self.melt_dataframe(df, id_vars=['id', 'control', 'produto', 'categoria', 'tipo'])
+        df.rename(columns={'Id': 'id', 'País': 'pais'}, inplace=True)
+
+        return self.melt_dataframe(df, id_vars=['id', 'pais', 'tipo'])
 
     def get_processa(self):
-        df1 = pd.read_csv('csv/ProcessaViniferas.csv', sep='\t')
-        df1['Tipo'] = 'ProcessaViniferas'
-        df2 = pd.read_csv('csv/ProcessaSemclass.csv', sep='\t')
-        df2['Tipo'] = 'ProcessaSemclass'
-        df3 = pd.read_csv('csv/ProcessaMesa.csv', sep='\t')
-        df3['Tipo'] = 'ProcessaMesa'
-        df4 = pd.read_csv('csv/ProcessaAmericanas.csv', sep='\t')
-        df4['Tipo'] = 'ProcessaAmericanas'
+        df1 = self.readcsvTipo('ProcessaViniferas.csv', 'Viniferas', '\t')
+
+        df2 = self.readcsvTipo('ProcessaSemclass.csv', 'Sem Classe', '\t')
+        df3 = self.readcsvTipo('ProcessaMesa.csv', 'Mesa', '\t')
+        df4 = self.readcsvTipo('ProcessaAmericanas.csv', 'Americanas', '\t')
+
         df = pd.concat([df1, df2, df3, df4], ignore_index=True)
         df = self.trataCategoria(df)
-        return self.melt_dataframe(df, id_vars=['id', 'control', 'produto', 'categoria', 'tipo'])
+
+        return self.melt_dataframe(df, id_vars=['id', 'control', 'cultivar', 'categoria', 'tipo'])
 
     def get_producao(self):
         df = pd.read_csv('csv/Producao.csv', sep=';')
+        df.rename(columns={'Produto': 'produto'}, inplace=True)
         df = self.trataCategoria(df)
-        return self.melt_dataframe(df, id_vars=['id', 'control', 'produto', 'categoria' ])
+        return self.melt_dataframe(df, id_vars=['id', 'control', 'produto', 'categoria'])
