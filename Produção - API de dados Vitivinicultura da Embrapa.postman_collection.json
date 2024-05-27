@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "d8c7440c-230d-4242-ad67-d8e85983e344",
-		"name": "API de Vinhos",
-		"description": "API para gerenciar informações de vinhos da embrapa",
+		"_postman_id": "b8ec1b77-0cf3-45b0-946e-5f7927d8e87d",
+		"name": "Produção - API de dados Vitivinicultura da Embrapa",
+		"description": "API para gerenciar informações de comercio, importação, exportação e processamento de uvas e derivados da embrapa",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "3004003"
 	},
@@ -12,6 +12,18 @@
 			"item": [
 				{
 					"name": "Realizar login e obter token JWT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"bearerToken\", pm.response.json()[\"access_token\"]);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -26,7 +38,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\"\n}",
+							"raw": "{\n  \"username\": \"test\",\n  \"password\": \"test\"\n}",
 							"options": {
 								"raw": {
 									"headerFamily": "json",
@@ -148,6 +160,16 @@
 				{
 					"name": "Obter as informações de produção",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -201,7 +223,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  }\n]"
 						},
 						{
 							"name": "Não autorizado",
@@ -236,11 +258,21 @@
 			]
 		},
 		{
-			"name": "processa-viniferas",
+			"name": "processa",
 			"item": [
 				{
 					"name": "Obter todas as informações de processamento viniferas",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -249,12 +281,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/processa-viniferas",
+							"raw": "{{baseUrl}}/processa",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"processa-viniferas"
+								"processa"
 							]
 						}
 					},
@@ -275,12 +307,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/processa-viniferas",
+									"raw": "{{baseUrl}}/processa",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"processa-viniferas"
+										"processa"
 									]
 								}
 							},
@@ -294,7 +326,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"cultivar\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"cultivar\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"cultivar\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"tipo\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"cultivar\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"tipo\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  }\n]"
 						},
 						{
 							"name": "Não autorizado",
@@ -308,12 +340,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/processa-viniferas",
+									"raw": "{{baseUrl}}/processa",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"processa-viniferas"
+										"processa"
 									]
 								}
 							},
@@ -334,6 +366,16 @@
 				{
 					"name": "Obter todas as informações de comércio",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -387,7 +429,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"control\": \"<string>\",\n    \"produto\": \"<string>\",\n    \"categoria\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  }\n]"
 						},
 						{
 							"name": "Não autorizado",
@@ -427,6 +469,16 @@
 				{
 					"name": "Obter todas as informações de importações",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -435,12 +487,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/importacao-vinhos",
+							"raw": "{{baseUrl}}/importacao",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"importacao-vinhos"
+								"importacao"
 							]
 						}
 					},
@@ -461,12 +513,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/importacao-vinhos",
+									"raw": "{{baseUrl}}/importacao",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"importacao-vinhos"
+										"importacao"
 									]
 								}
 							},
@@ -480,7 +532,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  }\n]"
 						},
 						{
 							"name": "Não autorizado",
@@ -494,12 +546,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/importacao-vinhos",
+									"raw": "{{baseUrl}}/importacao",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"importacao-vinhos"
+										"importacao"
 									]
 								}
 							},
@@ -520,6 +572,16 @@
 				{
 					"name": "Obter todas as informações de exportações de vinhos",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -528,12 +590,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/exportacao-vinhos",
+							"raw": "{{baseUrl}}/exportacao",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"exportacao-vinhos"
+								"exportacao"
 							]
 						}
 					},
@@ -554,12 +616,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/exportacao-vinhos",
+									"raw": "{{baseUrl}}/exportacao",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"exportacao-vinhos"
+										"exportacao"
 									]
 								}
 							},
@@ -573,7 +635,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\"\n  }\n]"
+							"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"país\": \"<string>\",\n    \"ano\": \"<integer>\",\n    \"valor\": \"<integer>\"\n  }\n]"
 						},
 						{
 							"name": "Não autorizado",
@@ -587,12 +649,12 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/exportacao-vinhos",
+									"raw": "{{baseUrl}}/exportacao",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"exportacao-vinhos"
+										"exportacao"
 									]
 								}
 							},
@@ -643,12 +705,16 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:5000"
+			"value": "https://api-vinifera-d375bceb170c.herokuapp.com/"
+		},
+		{
+			"key": "bearerToken\n",
+			"value": "",
+			"type": "string"
 		},
 		{
 			"key": "bearerToken",
-			"value": "",
-			"type": "string"
+			"value": ""
 		}
 	]
 }
