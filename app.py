@@ -1,80 +1,47 @@
 from flask import Flask, jsonify, request, send_from_directory
-from services.vinho_service import get_vinhos
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 from flask_swagger_ui import get_swaggerui_blueprint
-import os
+from services.data_processing_service import DataProcessingService
 
 app = Flask(__name__)
+data_service = DataProcessingService()
 
-
-# Configuração do JWT
 app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'
 jwt = JWTManager(app)
-
-# Dados de exemplo para cada endpoint
-producao_data = [
-    {"id": 1, "control": "control1", "produto": "produto1", "categoria": "categoria1", "ano": 2020},
-    {"id": 2, "control": "control2", "produto": "produto2", "categoria": "categoria2", "ano": 2021}
-]
-
-processa_viniferas_data = [
-    {"id": 1, "control": "control1", "cultivar": "cultivar1", "categoria": "categoria1", "ano": 2020},
-    {"id": 2, "control": "control2", "cultivar": "cultivar2", "categoria": "categoria2", "ano": 2021}
-]
-
-comercio_data = [
-    {"id": 1, "control": "control1", "produto": "produto1", "categoria": "categoria1", "ano": 2020},
-    {"id": 2, "control": "control2", "produto": "produto2", "categoria": "categoria2", "ano": 2021}
-]
-
-importacao_vinhos_data = [
-    {"id": 1, "país": "país1", "ano": 2020},
-    {"id": 2, "país": "país2", "ano": 2021}
-]
-
-exportacao_vinhos_data = [
-    {"id": 1, "país": "país1", "ano": 2020},
-    {"id": 2, "país": "país2", "ano": 2021}
-]
 
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/vinhos')
-def list_vinhos():
-    vinhos = get_vinhos()
-    return jsonify(vinhos)
+@app.route('/comercio', methods=['GET'])
+@jwt_required()
+def comercio():
+    df = data_service.get_comercio()
+    return jsonify(df.to_dict(orient='records'))
+
+@app.route('/exportacao', methods=['GET'])
+@jwt_required()
+def exportacao():
+    df = data_service.get_exportacao()
+    return jsonify(df.to_dict(orient='records'))
+
+@app.route('/importacao', methods=['GET'])
+@jwt_required()
+def importacao():
+    df = data_service.get_importacao()
+    return jsonify(df.to_dict(orient='records'))
+
+@app.route('/processa', methods=['GET'])
+@jwt_required()
+def processa():
+    df = data_service.get_processa()
+    return jsonify(df.to_dict(orient='records'))
 
 @app.route('/producao', methods=['GET'])
 @jwt_required()
-def get_producao():
-    return jsonify(producao_data), 200
-
-
-@app.route('/processa-viniferas', methods=['GET'])
-@jwt_required()
-def get_processa_viniferas():
-    return jsonify(processa_viniferas_data), 200
-
-
-@app.route('/comercio', methods=['GET'])
-@jwt_required()
-def get_comercio():
-    return jsonify(comercio_data), 200
-
-
-@app.route('/importacao-vinhos', methods=['GET'])
-@jwt_required()
-def get_importacao_vinhos():
-    return jsonify(importacao_vinhos_data), 200
-
-
-@app.route('/exportacao-vinhos', methods=['GET'])
-@jwt_required()
-def get_exportacao_vinhos():
-    return jsonify(exportacao_vinhos_data), 200
-
+def producao():
+    df = data_service.get_producao()
+    return jsonify(df.to_dict(orient='records'))
 
 # Endpoint para gerar token JWT para testes
 @app.route('/login', methods=['POST'])

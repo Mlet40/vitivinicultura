@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: API de Vinhos
-  description: API para gerenciar informações de vinhos da embrapa
+  title: API de dados Vitivinicultura da Embrapa
+  description: API para gerenciar informações de comercio, importação, exportação e processamento de uvas e derivados da embrapa
   version: 1.0.0
 servers:
   - url: https://api-vinifera-d375bceb170c.herokuapp.com/
@@ -38,6 +38,8 @@ components:
           type: string
         ano:
           type: integer
+        valor:
+          type: integer
 
     ProcessaViniferas:
       type: object
@@ -50,7 +52,11 @@ components:
           type: string
         categoria:
           type: string
+        tipo:
+          type: string
         ano:
+          type: integer
+        valor:
           type: integer
 
     Comercio:
@@ -66,6 +72,8 @@ components:
           type: string
         ano:
           type: integer
+        valor:
+          type: integer
 
     ImportacaoVinhos:
       type: object
@@ -76,6 +84,8 @@ components:
           type: string
         ano:
           type: integer
+        valor:
+          type: integer
 
     ExportacaoVinhos:
       type: object
@@ -85,6 +95,8 @@ components:
         país:
           type: string
         ano:
+          type: integer
+        valor:
           type: integer
 
 security:
@@ -133,7 +145,7 @@ paths:
           description: Não autorizado
 
  
-  /processa-viniferas:
+  /processa:
     get:
       summary: Obter todas as informações de processamento viniferas
       tags:
@@ -174,7 +186,7 @@ paths:
 
  
 
-  /importacao-vinhos:
+  /importacao:
     get:
       summary: Obter todas as informações de importações
       tags:
@@ -194,7 +206,7 @@ paths:
           description: Não autorizado
 
   
-  /exportacao-vinhos:
+  /exportacao:
     get:
       summary: Obter todas as informações de exportações de vinhos
       tags:

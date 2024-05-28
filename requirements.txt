@@ -3,3 +3,5 @@ Flask-JWT-Extended
 Flask-Swagger-UI
 PyYAML
 gunicorn
+pandas
+requests
